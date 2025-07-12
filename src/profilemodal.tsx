@@ -1,104 +1,72 @@
 import React from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogClose,
+} from '@/components/ui/dialog';
 
-// 1. props 타입 정의
 interface ProfileModalProps {
+  open: boolean;
   onClose: () => void;
   profileImg: string | null;
   handleProfileImgChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-// 2. 컴포넌트에 타입 적용
-const ProfileModal: React.FC<ProfileModalProps> = ({
+function ProfileModal({
+  open,
   onClose,
   profileImg,
   handleProfileImgChange,
-}) => {
+}: ProfileModalProps) {
   return (
-    <div
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100vw',
-        height: '100vh',
-        background: 'rgba(0,0,0,0.4)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        zIndex: 1000,
-      }}
-    >
-      <div
-        style={{
-          background: '#fff',
-          borderRadius: 16,
-          padding: 32,
-          minWidth: 640,
-          minHeight: 400,
-          boxShadow: '0 4px 24px rgba(0,0,0,0.1)',
-          position: 'relative',
-        }}
-      >
-        <button
-          onClick={onClose}
-          style={{
-            position: 'absolute',
-            top: 16,
-            right: 16,
-            background: 'none',
-            border: 'none',
-            fontSize: 20,
-            cursor: 'pointer',
-          }}
-        >
-          ✕
-        </button>
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent className="max-w-md bg-[#000000]">
+        <DialogHeader>
+          <DialogTitle>프로필 정보</DialogTitle>
+          <DialogClose asChild></DialogClose>
+        </DialogHeader>
 
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <label htmlFor="profile-upload" style={{ cursor: 'pointer' }}>
+        <div className="flex flex-col items-center gap-4 mt-2 ">
+          {/* 프로필 이미지 업로드 */}
+          <label
+            htmlFor="profile-modal-upload"
+            className="cursor-pointer flex flex-col items-center"
+          >
             <div
-              style={{
-                width: 100,
-                height: 100,
-                borderRadius: '50%',
-                background: '#3d2fd1',
-                marginBottom: 16,
-                overflow: 'hidden',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
+              className="
+                w-28 h-28 rounded-full bg-[#3d2fd1] overflow-hidden
+                flex items-center justify-center
+              "
             >
               {profileImg ? (
                 <img
                   src={profileImg}
                   alt="프로필"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  className="w-full h-full object-cover"
                 />
-              ) : null}
+              ) : (
+                <span className="text-white text-lg">사진 없음</span>
+              )}
             </div>
             <input
-              id="profile-upload"
+              id="profile-modal-upload"
               type="file"
               accept="image/*"
-              style={{ display: 'none' }}
+              className="hidden"
               onChange={handleProfileImgChange}
             />
+            <div className="text-[#2d5fff] mt-2 font-bold">사진 변경</div>
           </label>
-          <div style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 8 }}>
-            닉네임
-          </div>
-          <div style={{ color: '#666' }}>이메일 등 추가 정보</div>
+
+          {/* 닉네임 및 추가 정보 */}
+          <div className="text-xl font-bold mt-2">닉네임</div>
+          <div className="text-gray-500">이메일 등 추가 정보</div>
         </div>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
-};
+}
 
 export default ProfileModal;
