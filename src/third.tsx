@@ -1,3 +1,4 @@
+//third.tsx
 import React, { useState } from 'react';
 
 // 탭 배열 타입 정의
