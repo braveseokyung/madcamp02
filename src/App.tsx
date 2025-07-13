@@ -26,6 +26,7 @@ const App: React.FC = () => {
   const [showProfile, setShowProfile] = useState<boolean>(false);
   const [profileImg, setProfileImg] = useState<ProfileImgType>(null);
   const [pendingImg, setPendingImg] = useState<ProfileImgType>(null);
+  const [profileModalImg, setProfileModalImg] = useState<string | null>(null);
 
   useEffect(() => {
     // 초기 로드 시 로컬 스토리지에 토큰이 있는지 확인하여 로그인 상태 유지
@@ -33,7 +34,8 @@ const App: React.FC = () => {
     // const storedKakaoAccessToken = localStorage.getItem('kakaoAccessToken'); // 카카오 Access Token 제거
 
     // if (storedUserToken && storedKakaoAccessToken) { // 조건 변경
-    if (storedUserToken) { // Google 로그인 시에는 자체 userToken만 확인
+    if (storedUserToken) {
+      // Google 로그인 시에는 자체 userToken만 확인
       setIsLoggedIn(true);
       setUserToken(storedUserToken);
       // setKakaoAccessToken(storedKakaoAccessToken); // 카카오 Access Token 제거
@@ -54,11 +56,11 @@ const App: React.FC = () => {
     // 구글 로그인에서는 프론트엔드에서 직접 구글 로그아웃 API를 호출할 필요가 없습니다.
     // 백엔드에서 Refresh Token을 관리하거나, JWT 방식은 Stateless하므로 프론트엔드에서는
     // 단순히 앱의 토큰을 제거하여 로그인 상태를 해제합니다.
-    
+
     // 백엔드의 구글 로그아웃 엔드포인트가 따로 있다면 호출할 수 있지만,
     // 일반적으로는 백엔드에서 구글 Access/Refresh Token을 관리하므로
     // 프론트엔드는 앱의 JWT만 삭제하면 됩니다.
-    
+
     // 만약 백엔드에서 Google 토큰 해지(revoke)가 필요하다면 여기에 axios.post 호출 추가:
     /*
     try {
@@ -90,6 +92,17 @@ const App: React.FC = () => {
     }
   };
 
+  const handleProfileModalImgChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => setProfileModalImg(reader.result as string);
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handlePendingImgChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -113,15 +126,16 @@ const App: React.FC = () => {
           className="flex flex-col items-center bg-none border-none cursor-pointer mb-8 p-0"
         >
           <div className="w-36 h-36 rounded-full bg-[#3d2fd1] mb-4 overflow-hidden flex items-center justify-center">
-            {profileImg && (
+            {profileModalImg && (
               <img
-                src={profileImg}
+                src={profileModalImg}
                 alt="프로필"
                 className="w-full h-full object-cover"
               />
             )}
           </div>
-          <div className="text-xl text-[#222]">닉네임</div> {/* 실제 닉네임 표시 로직 추가 필요 */}
+          <div className="text-xl text-[#222]">닉네임</div>{' '}
+          {/* 실제 닉네임 표시 로직 추가 필요 */}
         </button>
         {SidebarMenus.map((menu, idx) => (
           <button
@@ -172,8 +186,8 @@ const App: React.FC = () => {
       <ProfileModal
         open={showProfile}
         onClose={() => setShowProfile(false)}
-        profileImg={profileImg}
-        handleProfileImgChange={handleProfileImgChange}
+        profileImg={profileModalImg}
+        handleProfileImgChange={handleProfileModalImgChange}
       />
     </div>
   );

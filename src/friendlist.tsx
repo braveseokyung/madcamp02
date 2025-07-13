@@ -77,17 +77,10 @@ function FriendList() {
         open={!!selectedFriend}
         onOpenChange={() => setSelectedFriend(null)}
       >
-        <DialogContent className="max-w-xs">
+        <DialogContent className="max-w-xs bg-[#FFFFFF]">
           <DialogHeader>
             <DialogTitle>친구 정보</DialogTitle>
-            <DialogClose asChild>
-              <button
-                className="absolute top-4 right-4 text-2xl"
-                aria-label="닫기"
-              >
-                &times;
-              </button>
-            </DialogClose>
+            <DialogClose asChild></DialogClose>
           </DialogHeader>
           {selectedFriend && (
             <div className="flex flex-col items-center gap-4">
@@ -106,17 +99,10 @@ function FriendList() {
 
       {/* 친구 검색 모달 */}
       <Dialog open={showSearch} onOpenChange={setShowSearch}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md bg-[#FFFFFF]">
           <DialogHeader>
             <DialogTitle>친구 검색</DialogTitle>
-            <DialogClose asChild>
-              <button
-                className="absolute top-4 right-4 text-2xl"
-                aria-label="닫기"
-              >
-                &times;
-              </button>
-            </DialogClose>
+            <DialogClose asChild></DialogClose>
           </DialogHeader>
           <div className="flex flex-col gap-4">
             <Input placeholder="닉네임, 이메일 등으로 검색" />

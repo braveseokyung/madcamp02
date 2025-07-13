@@ -23,7 +23,7 @@ function ProfileModal({
 }: ProfileModalProps) {
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-md bg-[#000000]">
+      <DialogContent className="max-w-md bg-[#FFFFFF]">
         <DialogHeader>
           <DialogTitle>프로필 정보</DialogTitle>
           <DialogClose asChild></DialogClose>

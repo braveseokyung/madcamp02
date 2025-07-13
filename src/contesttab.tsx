@@ -121,17 +121,10 @@ function ContestTab() {
 
       {/* 콘테스트 추가 모달 */}
       <Dialog open={showAdd} onOpenChange={setShowAdd}>
-        <DialogContent className="max-w-xs">
+        <DialogContent className="max-w-xs bg-[#FFFFFF]">
           <DialogHeader>
             <DialogTitle>콘테스트 추가</DialogTitle>
-            <DialogClose asChild>
-              <button
-                className="absolute top-4 right-4 text-2xl"
-                aria-label="닫기"
-              >
-                &times;
-              </button>
-            </DialogClose>
+            <DialogClose asChild></DialogClose>
           </DialogHeader>
           <div className="flex flex-col gap-4">
             <Input
@@ -170,20 +163,13 @@ function ContestTab() {
 
       {/* 콘테스트 상세 모달 (참가자 + 도전 버튼) */}
       <Dialog open={!!selected} onOpenChange={() => setSelected(null)}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-2xl bg-[#FFFFFF]">
           <DialogHeader>
             <DialogTitle>{selected?.title} 참가자</DialogTitle>
-            <DialogClose asChild>
-              <button
-                className="absolute top-4 right-4 text-2xl"
-                aria-label="닫기"
-              >
-                &times;
-              </button>
-            </DialogClose>
+            <DialogClose asChild></DialogClose>
           </DialogHeader>
           {/* 참가자 리스트 */}
-          <div className="grid grid-cols-2 gap-6 py-4">
+          <div className="grid grid-cols-3 gap-6 py-4">
             {selected?.participants.map((p) => (
               <div
                 key={p.id}
@@ -216,17 +202,10 @@ function ContestTab() {
 
       {/* 도전 버튼 클릭 시 빈 다이얼로그 */}
       <Dialog open={showChallenge} onOpenChange={setShowChallenge}>
-        <DialogContent className="max-w-xs">
+        <DialogContent className="max-w-xs bg-[#FFFFFF]">
           <DialogHeader>
             <DialogTitle>도전하기</DialogTitle>
-            <DialogClose asChild>
-              <button
-                className="absolute top-4 right-4 text-2xl"
-                aria-label="닫기"
-              >
-                &times;
-              </button>
-            </DialogClose>
+            <DialogClose asChild></DialogClose>
           </DialogHeader>
           <div className="flex items-center justify-center h-32 text-gray-400">
             (여기에 도전 관련 UI/폼/안내문구 등 추가)

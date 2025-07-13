@@ -4,14 +4,14 @@ import { Card } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 
 const friends = [
-  { id: 1, name: '김철수' },
-  { id: 2, name: '이영희' },
-  { id: 3, name: '박민수' },
-  { id: 4, name: '최지우' },
-  { id: 5, name: '홍길동' },
-  { id: 6, name: '신유진' },
-  { id: 7, name: '유재석' },
-  { id: 8, name: '강호동' },
+  { id: 1, name: '김철수', avatar: '/assets/testimg1.jpg' },
+  { id: 2, name: '이영희', avatar: '/assets/testimg2.jpg' },
+  { id: 3, name: '박민수', avatar: '/assets/testimg1.jpg' },
+  { id: 4, name: '최지우', avatar: '/assets/testimg1.jpg' },
+  { id: 5, name: '홍길동', avatar: '/assets/testimg2.jpg' },
+  { id: 6, name: '신유진', avatar: '/assets/testimg1.jpg' },
+  { id: 7, name: '유재석', avatar: '/assets/testimg2.jpg' },
+  { id: 8, name: '강호동', avatar: '/assets/testimg1.jpg' },
   // ...친구가 많아도 스크롤 가능
 ];
 
@@ -36,6 +36,10 @@ const First: React.FC<FirstProps> = ({
   const [activeTab, setActiveTab] = useState<string>('upload');
 
   const [selectedFriend, setSelectedFriend] = useState<number | null>(null);
+
+  const [friendImg, setFriendImg] = useState<string | null>(null);
+
+  const [showFriendFace, setShowFriendFace] = useState(false);
 
   return (
     <div className="flex flex-col items-center w-full max-w-screen-lg mx-auto">
@@ -142,27 +146,54 @@ const First: React.FC<FirstProps> = ({
               </label>
             </Card>
             {/* 친구 리스트 */}
-            <Card className="flex-1 min-w-[300px] max-w-[600px] h-[340px] flex flex-col rounded-2xl overflow-hidden">
-              <div className="flex-1 overflow-y-auto">
-                {friends.map((friend) => (
+            {/* 오른쪽 카드 */}
+            <Card className="flex-1 min-w-[300px] max-w-[600px] h-[340px] flex flex-col rounded-2xl overflow-hidden items-center justify-center">
+              {!showFriendFace ? (
+                <>
+                  <div className="flex-1 overflow-y-auto w-full">
+                    {friends.map((friend) => (
+                      <button
+                        key={friend.id}
+                        className={`w-full text-left px-6 py-4 border-b border-gray-200 hover:bg-[#f0f4ff] transition
+                      ${
+                        selectedFriend === friend.id
+                          ? 'bg-[#3d2fd1] text-white font-bold'
+                          : 'bg-white text-gray-900'
+                      }`}
+                        onClick={() => setSelectedFriend(friend.id)}
+                      >
+                        {friend.name}
+                      </button>
+                    ))}
+                  </div>
+                  {selectedFriend && (
+                    <button
+                      className="w-full py-2 bg-[#3d2fd1] text-white font-bold hover:bg-[#2a1e8b] transition"
+                      onClick={() => setShowFriendFace(true)}
+                    >
+                      적용
+                    </button>
+                  )}
+                </>
+              ) : (
+                <div className="flex flex-col items-center justify-center w-full h-full">
+                  <img
+                    src={
+                      friends.find((f) => f.id === selectedFriend)?.avatar ||
+                      '/default-avatar.png'
+                    }
+                    alt="친구 얼굴"
+                    className="w-40 h-40 rounded-full object-cover mb-4"
+                  />
+                  <div className="font-semibold mb-4">
+                    {friends.find((f) => f.id === selectedFriend)?.name}
+                  </div>
                   <button
-                    key={friend.id}
-                    className={`w-full text-left px-6 py-4 border-b border-gray-200 hover:bg-[#f0f4ff] transition
-                ${
-                  selectedFriend === friend.id
-                    ? 'bg-[#3d2fd1] text-white font-bold'
-                    : 'bg-white text-gray-900'
-                }`}
-                    onClick={() => setSelectedFriend(friend.id)}
+                    className="py-2 px-6 bg-gray-300 text-gray-800 font-bold rounded hover:bg-gray-400 transition"
+                    onClick={() => setShowFriendFace(false)}
                   >
-                    {friend.name}
+                    취소
                   </button>
-                ))}
-              </div>
-              {selectedFriend && (
-                <div className="w-full py-3 text-center text-base font-semibold text-[#3d2fd1] bg-gray-50">
-                  선택된 친구:{' '}
-                  {friends.find((f) => f.id === selectedFriend)?.name}
                 </div>
               )}
             </Card>
